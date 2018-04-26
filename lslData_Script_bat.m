@@ -44,11 +44,17 @@ function y = generateExcelFile(fileName1, fileName2)
         end
         
         [a,sortedIndices] = sort(times);
-        %[y x] = organize_data_with_bip...
-         %  (times, markers, extractBefore(string(file.name), "."));
-       
-        [y x] = organize_data_new_triggers...
-           (times, markers,titles,sortedIndices, extractBefore(string(file.name), "."));
+        
+        if ~isempty(strfind(file.name, "001"))
+            [y x] = organize_data_bat_001...
+                (times, markers,titles,sortedIndices, extractBefore(string(file.name), "."));
+        elseif ~isempty(strfind(file.name, "003")) || ~isempty(strfind(file.name, "004"))
+            [y x] = organize_data_bat_003_004...
+                (times, markers,titles,sortedIndices, extractBefore(string(file.name), "."));   
+        else
+            [y x] = organize_data_bat_005_plus...
+                (times, markers,titles,sortedIndices, extractBefore(string(file.name), "."));
+        end
         dataTable = [dataTable;y];
         blockTimes = [blockTimes;x];
 

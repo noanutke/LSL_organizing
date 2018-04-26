@@ -458,7 +458,7 @@ function checkIfStartTrigger(trigger, n, timeVector, defaultSubName)
              blockNumber =  extractBefore(extractAfter(trigger, "blockNumber_"),"_"); 
              blockType = extractBefore(extractAfter(trigger, "blockOrdinal_"),"_");
              isBaseline = extractBefore(extractAfter(trigger, "isBaseline_"),"_"); 
-             speed = extractAfter(trigger, "speed_");
+             speed = extractBefore(extractAfter(trigger, "speed_"),"_");
              startTime = timeVector(n);
 
              if blockNumber == "0"
@@ -516,29 +516,31 @@ function calculateDifficultLevel()
      global level;
      global ringSize ;
      global difficultLevel;
+     global isBaseline;
+     
+     if string(isBaseline{1,1}) == "True"        
+         difficultLevel = 0;
+         if string(ringSize{1,1}) == 'big'
+             difficultLevel = 10;
+         elseif string(ringSize{1,1}) == 'medium'
+             difficultLevel = 20;
+         elseif string(ringSize{1,1}) == 'small'
+             difficultLevel = 30;            
+         end         
 
-     if level{1,1} == '0'
-         if string(ringSize{1,1}) == 'small'
-             difficultLevel = 3;
+     elseif level{1,1} == '1'
+         if string(ringSize{1,1}) == 'big'
+             difficultLevel = 1;
          elseif string(ringSize{1,1}) == 'medium'
              difficultLevel = 2;
-         else
-             difficultLevel = 1;
-         end
-     elseif level{1,1} == '1'
-         if string(ringSize{1,1}) == 'medium'
-             difficultLevel = 5;
-         else
-             difficultLevel = 4;
          end
      elseif level{1,1} == '2'
          if string(ringSize{1,1}) == 'medium'
-             difficultLevel = 6;
+             difficultLevel = 3;
          else
-             difficultLevel = 7;
+             difficultLevel = 4;
          end
      else
-         difficultLevel = 8;
+         difficultLevel = 5;
      end
 end
-

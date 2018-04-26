@@ -309,7 +309,7 @@ function result = isTrialResult(trigger)
                     lastTrialSuccess = '1';
                 end
             end
-         else
+         elseif currentTask ~= ""
             result = '1';
             currentStroopRow = currentStroopRow + 1;
             isSuccess = extractAfter(trigger, "success_");
@@ -410,8 +410,8 @@ function checkIfEndTrigger(trigger, n, timeVector)
 
      startIndices = strfind(trigger, 'endBlock');
      appearance = size(startIndices{1,1});
-     if appearance(1) ~= 0    
-         blockTimes = {}
+     if appearance(1) ~= 0 &&  currentTask ~= ""  
+         blockTimes = {};
          if currentTask == "stroop"
             blockTimes = blockTimesStroopRes;
          else
